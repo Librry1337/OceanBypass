@@ -1,2 +1,5 @@
-create by Librry aka 1Mreoka1
+create by Librry
+\
+|
+/
 dsc.gg/ourgodz
