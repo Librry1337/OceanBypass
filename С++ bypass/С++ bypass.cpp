@@ -11,7 +11,7 @@
 #include <chrono>
 #include <future>
 
-// Глаз боба
+// Глаз бобa
 std::unordered_map<DWORD, bool> checkedProcesses;
 
 // Вайт лист для оптимизации
