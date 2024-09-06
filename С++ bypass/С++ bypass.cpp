@@ -11,16 +11,16 @@
 #include <chrono>
 #include <future>
 
-// Глобальная переменная для отслеживания проверенных процессов
+// Глаз боба
 std::unordered_map<DWORD, bool> checkedProcesses;
 
-// Список системных процессов для фильтрации
+// Вайт лист для оптимизации
 const std::unordered_set<std::wstring> systemProcesses = {
     L"System", L"smss.exe", L"csrss.exe", L"wininit.exe", L"winlogon.exe",
     L"services.exe", L"lsass.exe", L"svchost.exe", L"explorer.exe" L"vctip.exe"
 };
 
-// Функция для анимации текста
+
 void AnimateText(const std::string& text, int delay_ms) {
     for (char ch : text) {
         std::cout << ch << std::flush;
@@ -29,7 +29,7 @@ void AnimateText(const std::string& text, int delay_ms) {
     std::cout << std::endl;
 }
 
-// Функция для очистки консоли
+
 void ClearConsole() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD coordScreen = { 0, 0 };
@@ -45,7 +45,7 @@ void ClearConsole() {
     SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
-// Проверка на запрещенные строки (чтение файла по частям)
+// ЕБАТЬ САТОШИ ДАЖЕ СЮДА ДОБРАЛСЯ
 bool containsForbiddenString(const std::wstring& filePath, const std::vector<std::wstring>& forbiddenStrings) {
     try {
         std::wifstream file(filePath, std::ios::binary | std::ios::in);
@@ -72,7 +72,7 @@ bool containsForbiddenString(const std::wstring& filePath, const std::vector<std
     return false;
 }
 
-// Получение пути процесса
+// получаем название
 std::wstring getProcessPath(DWORD processID) {
     std::wstring path;
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID);
@@ -97,7 +97,7 @@ bool terminateProcess(DWORD processID) {
     return result;
 }
 
-// Асинхронная проверка процессов
+// ускорение нахождения
 void checkProcesses() {
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (snapshot == INVALID_HANDLE_VALUE) {
@@ -111,17 +111,17 @@ void checkProcesses() {
 
     if (Process32FirstW(snapshot, &processEntry)) {
         do {
-            // Пропускаем уже проверенные процессы
+            // скип
             if (checkedProcesses.find(processEntry.th32ProcessID) != checkedProcesses.end()) {
                 continue;
             }
 
-            // Пропускаем системные процессы
+            // скип
             if (systemProcesses.find(processEntry.szExeFile) != systemProcesses.end()) {
                 continue;
             }
 
-            // Запускаем проверку процессов в отдельном потоке
+            // проверка в 3 ебла
             futures.push_back(std::async(std::launch::async, [processEntry]() {
                 try {
                     std::wstring processPath = getProcessPath(processEntry.th32ProcessID);
@@ -160,7 +160,7 @@ void checkProcesses() {
     CloseHandle(snapshot);
 }
 
-// Удаление завершённых процессов
+// я хз зачем
 void removeExitedProcesses() {
     std::unordered_set<DWORD> runningProcessIDs;
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -190,23 +190,23 @@ void removeExitedProcesses() {
 }
 
 int main() {
-    // Анимация текста
+   
     AnimateText("[~] Librry technology Inc.", 100);  // Ускоренная анимация
 
-    // Очистка консоли
+    
     ClearConsole();
 
-    // Выводим выбор действия
+   
     std::cout << "[~] Что делать будем?" << std::endl;
     std::cout << "[1] Запуск байпаса." << std::endl;
     std::cout << "[2] Debug." << std::endl;
 
-    // Получаем выбор пользователя
+  
     std::cout << "Выберите действие: ";
     std::string choice;
     std::getline(std::cin, choice);
 
-    // Убедимся, что выбор был получен
+    
     std::cout << "Выбранное действие: " << choice << std::endl;
 
     if (choice == "1") {
