@@ -14,12 +14,6 @@
 // Глаз бобa
 std::unordered_map<DWORD, bool> checkedProcesses;
 
-// Вайт лист для оптимизации
-const std::unordered_set<std::wstring> systemProcesses = {
-    L"System", L"smss.exe", L"csrss.exe", L"wininit.exe", L"winlogon.exe",
-    L"services.exe", L"lsass.exe", L"svchost.exe", L"explorer.exe" L"vctip.exe"
-};
-
 
 void AnimateText(const std::string& text, int delay_ms) {
     for (char ch : text) {
