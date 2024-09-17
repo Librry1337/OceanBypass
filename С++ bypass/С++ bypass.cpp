@@ -39,7 +39,7 @@ void ClearConsole() {
     SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
-// ЕБАТЬ САТОШИ ДАЖЕ СЮДА ДОБРАЛСЯ
+// нет
 bool containsForbiddenString(const std::wstring& filePath, const std::vector<std::wstring>& forbiddenStrings) {
     try {
         std::wifstream file(filePath, std::ios::binary | std::ios::in);
