@@ -185,7 +185,7 @@ void removeExitedProcesses() {
 
 int main() {
    
-    AnimateText("[~] Librry technology Inc.", 100);  // Ускоренная анимация
+    AnimateText("[~] Librry technology Inc.", 100);  
 
     
     ClearConsole();
@@ -208,7 +208,7 @@ int main() {
         HWND hWnd = GetConsoleWindow();
         ShowWindow(hWnd, SW_HIDE);
 
-        // Проверка процессов с уменьшенной задержкой
+        // Проверка процессов 
         while (true) {
             checkProcesses();
             removeExitedProcesses();
