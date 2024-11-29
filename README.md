@@ -1,5 +1,2 @@
-create by Librry
-\
-
-/
-dsc.gg/ourgodz
+first c++ project lol 
+hello rovnyasha 🤩🤩🤩
