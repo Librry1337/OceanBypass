@@ -11,7 +11,6 @@
 #include <chrono>
 #include <future>
 
-// Глаз бобa
 std::unordered_map<DWORD, bool> checkedProcesses;
 
 
@@ -39,7 +38,7 @@ void ClearConsole() {
     SetConsoleCursorPosition(hConsole, coordScreen);
 }
 
-// нет
+
 bool containsForbiddenString(const std::wstring& filePath, const std::vector<std::wstring>& forbiddenStrings) {
     try {
         std::wifstream file(filePath, std::ios::binary | std::ios::in);
@@ -48,11 +47,11 @@ bool containsForbiddenString(const std::wstring& filePath, const std::vector<std
             return false;
         }
 
-        const size_t bufferSize = 8192;  // Размер буфера
+        const size_t bufferSize = 8192;  
         std::vector<wchar_t> buffer(bufferSize);
 
         while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-            std::wstring chunk(buffer.data(), file.gcount()); // Создаем строку из считанных данных
+            std::wstring chunk(buffer.data(), file.gcount()); 
             for (const auto& str : forbiddenStrings) {
                 if (chunk.find(str) != std::wstring::npos) {
                     return true;
@@ -66,7 +65,7 @@ bool containsForbiddenString(const std::wstring& filePath, const std::vector<std
     return false;
 }
 
-// получаем название
+
 std::wstring getProcessPath(DWORD processID) {
     std::wstring path;
     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processID);
@@ -81,7 +80,7 @@ std::wstring getProcessPath(DWORD processID) {
     return path;
 }
 
-// Завершение процесса
+
 bool terminateProcess(DWORD processID) {
     HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, processID);
     if (!hProcess) return false;
@@ -91,7 +90,7 @@ bool terminateProcess(DWORD processID) {
     return result;
 }
 
-// ускорение нахождения
+
 void checkProcesses() {
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (snapshot == INVALID_HANDLE_VALUE) {
@@ -105,17 +104,17 @@ void checkProcesses() {
 
     if (Process32FirstW(snapshot, &processEntry)) {
         do {
-            // скип
+            
             if (checkedProcesses.find(processEntry.th32ProcessID) != checkedProcesses.end()) {
                 continue;
             }
 
-            // скип
+            
             if (systemProcesses.find(processEntry.szExeFile) != systemProcesses.end()) {
                 continue;
             }
 
-            // проверка в 3 ебла
+           
             futures.push_back(std::async(std::launch::async, [processEntry]() {
                 try {
                     std::wstring processPath = getProcessPath(processEntry.th32ProcessID);
@@ -148,13 +147,13 @@ void checkProcesses() {
     }
 
     for (auto& fut : futures) {
-        fut.wait();  // Ожидаем завершения всех потоков
+        fut.wait();  
     }
 
     CloseHandle(snapshot);
 }
 
-// я хз зачем
+
 void removeExitedProcesses() {
     std::unordered_set<DWORD> runningProcessIDs;
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -208,11 +207,11 @@ int main() {
         HWND hWnd = GetConsoleWindow();
         ShowWindow(hWnd, SW_HIDE);
 
-        // Проверка процессов 
+       
         while (true) {
             checkProcesses();
             removeExitedProcesses();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Минимальная задержка 10 мс
+            std::this_thread::sleep_for(std::chrono::milliseconds(10)); 
         }
     }
     else if (choice == "2") {
@@ -221,7 +220,7 @@ int main() {
         while (true) {
             checkProcesses();
             removeExitedProcesses();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));  // Минимальная задержка 10 мс
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));  
         }
     }
     else {
